@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MobiTv — Watch movies, series, anime, live TV and play retro games. Free global streaming portal." />
+  <meta name="theme-color" content="#0d0d0d" />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="MobiTv — Watch Everything, Everywhere" />
+  <meta property="og:description" content="Free global streaming — movies, series, anime, live TV, retro games." />
+  <meta property="og:type"        content="website" />
+
+  <title>MobiTv — Watch Everything, Everywhere</title>
+
+  <!-- Favicon (SVG inline fallback) -->
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body class="has-trial-banner">
+
+  <!-- ══════════════════════════════════════════
+       TRIAL BANNER
+  ══════════════════════════════════════════ -->
+  <div class="trial-banner" id="trialBanner">
+    <div class="trial-banner__text">
+      <span>🎬 Your free trial:</span>
+      <span class="trial-banner__days" id="trialDaysLeft">7 Days Left</span>
+      <strong>Enjoy full access — no limits.</strong>
+    </div>
+    <span class="trial-banner__cta" onclick="window.location.href='pages/auth.html#upgrade'">
+      Upgrade Now →
+    </span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+
+    <!-- Logo -->
+    <a href="index.html" class="navbar__logo">MOBI<span>TV</span></a>
+
+    <!-- Desktop Links -->
+    <ul class="navbar__links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="pages/movies.html">Movies</a></li>
+      <li><a href="pages/series.html">Series</a></li>
+      <li><a href="pages/anime.html">Anime</a></li>
+      <li><a href="pages/cartoons.html">Cartoons</a></li>
+
+      <!-- Live TV Dropdown -->
+      <li class="navbar__dropdown">
+        <button class="navbar__dropdown-toggle">
+          Live TV
+          <svg viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 8L1 3h10L6 8z"/>
+          </svg>
+        </button>
+        <div class="navbar__dropdown-menu">
+          <a href="pages/live-tv.html"><span class="menu-icon">🌐</span> All Channels</a>
+          <a href="pages/live-tv.html?cat=news"><span class="menu-icon">📰</span> News</a>
+          <a href="pages/live-tv.html?cat=sports"><span class="menu-icon">⚽</span> Sports</a>
+          <a href="pages/live-tv.html?cat=entertainment"><span class="menu-icon">🎭</span> Entertainment</a>
+          <a href="pages/live-tv.html?cat=movies"><span class="menu-icon">🎬</span> Movies Channels</a>
+          <a href="pages/live-tv.html?cat=kids"><span class="menu-icon">🧸</span> Kids</a>
+          <a href="pages/live-tv.html?cat=documentary"><span class="menu-icon">🌍</span> Documentary</a>
+          <a href="pages/live-tv.html?cat=music"><span class="menu-icon">🎵</span> Music</a>
+        </div>
+      </li>
+
+      <li><a href="pages/documentaries.html">Docs</a></li>
+      <li><a href="pages/games.html">🎮 Games</a></li>
+      <li><a href="pages/trending.html">▶ Trending</a></li>
+    </ul>
+
+    <!-- Right Side -->
+    <div class="navbar__right">
+
+      <!-- Search -->
+      <div class="navbar__search">
+        <span class="navbar__search-icon">🔍</span>
+        <input
+          class="navbar__search-input"
+          id="navSearchInput"
+          type="text"
+          placeholder="Search titles, genres..."
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Notification Bell (logged in only) -->
+      <button class="navbar__notif hidden" id="navNotif" title="Notifications">
+        🔔
+        <span class="navbar__notif-dot"></span>
+      </button>
+
+      <!-- Auth Buttons (logged out) -->
+      <div id="navAuthButtons">
+        <button class="btn-signin" onclick="openAuthModal('login')">Sign In</button>
+        <button class="btn-signup" onclick="openAuthModal('register')">Start Free Trial</button>
+      </div>
+
+      <!-- Avatar (logged in, hidden by default) -->
+      <button class="navbar__avatar hidden" id="navAvatar" title="My Profile">
+        M
+      </button>
+
+      <!-- Mobile Hamburger -->
+      <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="navbar__mobile" id="mobileNav">
+    <a href="index.html" class="active">Home</a>
+    <a href="pages/movies.html">Movies</a>
+    <a href="pages/series.html">Series</a>
+    <a href="pages/anime.html">Anime</a>
+    <a href="pages/cartoons.html">Cartoons</a>
+    <a href="pages/live-tv.html">Live TV</a>
+    <a href="pages/documentaries.html">Documentaries</a>
+    <a href="pages/games.html">🎮 Retro Games</a>
+    <a href="pages/trending.html">▶ YouTube Trending</a>
+    <a href="pages/search.html">🔍 Search</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       MAIN PAGE WRAPPER
+  ══════════════════════════════════════════ -->
+  <main class="page-wrapper page-enter" id="mainContent">
+
+    <!-- ── HERO SECTION ── -->
+    <section class="hero" id="heroSection">
+
+      <!-- Background image + gradients -->
+      <div class="hero__bg" id="heroBg">
+        <div class="hero__bg-image" id="heroBgImage"></div>
+        <div class="hero__bg-gradient"></div>
+      </div>
+
+      <!-- Hero content -->
+      <div class="hero__content" id="heroContent">
+        <div class="hero__meta">
+          <span class="badge badge-new" id="heroBadge">NEW</span>
+          <span class="hero__rating" id="heroRating">⭐ 8.5</span>
+          <span class="hero__year"   id="heroYear">2024</span>
+          <span class="hero__genre"  id="heroGenre">Sci-Fi · Action</span>
+        </div>
+
+        <h1 class="hero__title" id="heroTitle">Loading...</h1>
+        <p  class="hero__desc"  id="heroDesc">Fetching featured content for you...</p>
+
+        <div class="hero__actions">
+          <button class="btn btn-primary btn-lg hero__play-btn" id="heroPlayBtn">
+            ▶ &nbsp;Play Now
+          </button>
+          <button class="btn btn-secondary btn-lg" id="heroInfoBtn">
+            ℹ &nbsp;More Info
+          </button>
+          <button class="btn btn-ghost hero__watchlist-btn" id="heroWatchlistBtn" title="Add to Watchlist">
+            ＋
+          </button>
+        </div>
+
+        <!-- Hero progress bar (continue watching) -->
+        <div class="hero__progress" id="heroProgress" style="display:none;">
+          <div class="hero__progress-label">Continue watching</div>
+          <div class="hero__progress-bar">
+            <div class="hero__progress-fill" id="heroProgressFill" style="width:40%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Slide Indicators -->
+      <div class="hero__indicators" id="heroIndicators">
+        <span class="hero__dot active"></span>
+        <span class="hero__dot"></span>
+        <span class="hero__dot"></span>
+        <span class="hero__dot"></span>
+        <span class="hero__dot"></span>
+      </div>
+
+      <!-- Hero Nav Arrows -->
+      <button class="hero__arrow hero__arrow--prev" id="heroPrev">&#8249;</button>
+      <button class="hero__arrow hero__arrow--next" id="heroNext">&#8250;</button>
+
+    </section>
+
+    <!-- ── CATEGORY TABS ── -->
+    <section class="page-section">
+      <div class="category-tabs" id="categoryTabs">
+        <button class="cat-tab active" data-cat="all">All</button>
+        <button class="cat-tab" data-cat="movies">🎬 Movies</button>
+        <button class="cat-tab" data-cat="series">📺 Series</button>
+        <button class="cat-tab" data-cat="anime">⛩️ Anime</button>
+        <button class="cat-tab" data-cat="cartoons">🧸 Cartoons</button>
+        <button class="cat-tab" data-cat="documentaries">🌍 Docs</button>
+        <button class="cat-tab" data-cat="live">📡 Live TV</button>
+        <button class="cat-tab" data-cat="games">🎮 Games</button>
+        <button class="cat-tab" data-cat="trending">▶ Trending</button>
+      </div>
+    </section>
+
+    <!-- ── CONTINUE WATCHING ── -->
+    <section class="page-section" id="continueWatchingSection">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">▶</span> Continue Watching
+        </h2>
+        <a href="pages/profile.html#history" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="continueWatchingRow">
+          <!-- Skeleton placeholders -->
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TRENDING THIS WEEK ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">🔥</span> Trending This Week
+        </h2>
+        <a href="pages/trending.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="trendingRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── NEW RELEASES ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">✨</span> New Releases
+        </h2>
+        <a href="pages/movies.html?sort=new" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="newReleasesRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TOP MOVIES ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">🎬</span> Top Movies
+        </h2>
+        <a href="pages/movies.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="topMoviesRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TOP SERIES ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">📺</span> Popular Series
+        </h2>
+        <a href="pages/series.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="topSeriesRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ANIME ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">⛩️</span> Top Anime
+        </h2>
+        <a href="pages/anime.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="animeRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── WORLD CINEMA ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">🌍</span> World Cinema
+        </h2>
+        <a href="pages/movies.html?filter=world" class="section-see-all">See all →</a>
+      </div>
+      <!-- Region Pills -->
+      <div class="region-pills" id="regionPills">
+        <button class="region-pill active" data-region="all">All Regions</button>
+        <button class="region-pill" data-region="KR">🇰🇷 Korean</button>
+        <button class="region-pill" data-region="TR">🇹🇷 Turkish</button>
+        <button class="region-pill" data-region="IN">🇮🇳 Indian</button>
+        <button class="region-pill" data-region="JP">🇯🇵 Japanese</button>
+        <button class="region-pill" data-region="ES">🇪🇸 Spanish</button>
+        <button class="region-pill" data-region="DE">🇩🇪 German</button>
+        <button class="region-pill" data-region="AR">🇸🇦 Arabic</button>
+        <button class="region-pill" data-region="FR">🇫🇷 French</button>
+        <button class="region-pill" data-region="CN">🇨🇳 Chinese</button>
+      </div>
+      <div class="row-fade-edge" style="margin-top: var(--space-4);">
+        <div class="media-row scrollable-x" id="worldCinemaRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DOCUMENTARIES ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">🌿</span> Documentaries
+        </h2>
+        <a href="pages/documentaries.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="docsRow">
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CARTOONS ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">🧸</span> Cartoons &amp; Kids
+        </h2>
+        <a href="pages/cartoons.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="cartoonsRow">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LIVE TV PREVIEW ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">📡</span> Live TV
+          <span class="badge badge-live" style="margin-left:8px;">LIVE</span>
+        </h2>
+        <a href="pages/live-tv.html" class="section-see-all">All Channels →</a>
+      </div>
+      <div class="live-channels-grid" id="liveChannelsGrid">
+        <!-- Skeleton tiles -->
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+      </div>
+    </section>
+
+    <!-- ── RETRO GAMES PREVIEW ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">🎮</span> Retro Games
+        </h2>
+        <a href="pages/games.html" class="section-see-all">Play all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="gamesRow">
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── YOUTUBE TRENDING ── -->
+    <section class="page-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="icon">▶</span> YouTube Trending
+        </h2>
+        <a href="pages/trending.html" class="section-see-all">See all →</a>
+      </div>
+      <div class="row-fade-edge">
+        <div class="media-row scrollable-x" id="youtubeTrendingRow">
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+          <div class="skeleton skeleton-card-landscape"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MOOD PICKER ── -->
+    <section class="page-section">
+      <div class="mood-section">
+        <h2 class="mood-title">What's your mood?</h2>
+        <p class="mood-subtitle">Let us pick something perfect for you</p>
+        <div class="mood-grid">
+          <button class="mood-card" data-mood="action">💥<span>Action</span></button>
+          <button class="mood-card" data-mood="comedy">😂<span>Comedy</span></button>
+          <button class="mood-card" data-mood="romance">💕<span>Romance</span></button>
+          <button class="mood-card" data-mood="thriller">😱<span>Thriller</span></button>
+          <button class="mood-card" data-mood="scifi">🚀<span>Sci-Fi</span></button>
+          <button class="mood-card" data-mood="horror">👻<span>Horror</span></button>
+          <button class="mood-card" data-mood="drama">🎭<span>Drama</span></button>
+          <button class="mood-card" data-mood="chill">🌊<span>Chill</span></button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__grid">
+
+      <!-- Brand -->
+      <div class="footer__brand">
+        <span class="footer__logo">MOBI<span>TV</span></span>
+        <p class="footer__tagline">
+          Free global streaming — movies, series, anime, live TV, documentaries and retro games. No downloads. No region locks.
+        </p>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link" title="Twitter">𝕏</a>
+          <a href="#" class="footer__social-link" title="Instagram">📸</a>
+          <a href="#" class="footer__social-link" title="YouTube">▶</a>
+          <a href="#" class="footer__social-link" title="Discord">💬</a>
+        </div>
+      </div>
+
+      <!-- Browse -->
+      <div>
+        <div class="footer__col-title">Browse</div>
+        <div class="footer__links">
+          <a href="pages/movies.html">Movies</a>
+          <a href="pages/series.html">Series</a>
+          <a href="pages/anime.html">Anime</a>
+          <a href="pages/cartoons.html">Cartoons</a>
+          <a href="pages/documentaries.html">Documentaries</a>
+          <a href="pages/live-tv.html">Live TV</a>
+          <a href="pages/games.html">Retro Games</a>
+          <a href="pages/trending.html">YouTube Trending</a>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div>
+        <div class="footer__col-title">Account</div>
+        <div class="footer__links">
+          <a href="pages/auth.html">Sign In</a>
+          <a href="pages/auth.html#register">Register</a>
+          <a href="pages/profile.html">My Profile</a>
+          <a href="pages/profile.html#watchlist">Watchlist</a>
+          <a href="pages/profile.html#history">Watch History</a>
+          <a href="pages/auth.html#upgrade">Upgrade Plan</a>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <div class="footer__col-title">Support</div>
+        <div class="footer__links">
+          <a href="#">Help Center</a>
+          <a href="#">Report a Bug</a>
+          <a href="#">Request Content</a>
+          <a href="#">Contact Us</a>
+          <a href="#">Status</a>
+        </div>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <div class="footer__col-title">Legal</div>
+        <div class="footer__links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">DMCA</a>
+          <a href="#">Disclaimer</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__copyright">© 2025 MobiTv. All rights reserved.</span>
+      <div class="footer__legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       BACK TO TOP
+  ══════════════════════════════════════════ -->
+  <button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+
+  <!-- ══════════════════════════════════════════
+       TOAST CONTAINER
+  ══════════════════════════════════════════ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ══════════════════════════════════════════
+       PAYWALL OVERLAY (Soft Block)
+  ══════════════════════════════════════════ -->
+  <div class="paywall-overlay" id="paywallOverlay">
+    <div class="paywall-card">
+      <div class="paywall-icon">🎬</div>
+      <h2 class="paywall-title">Your Trial Has Ended</h2>
+      <p class="paywall-text">
+        Your 7-day free trial is over. Upgrade to keep watching unlimited movies, series, anime, live TV and retro games — no ads, no limits.
+      </p>
+      <div class="paywall-btns">
+        <button class="btn btn-primary btn-lg" onclick="window.location.href='pages/auth.html#upgrade'">
+          🚀 Upgrade Now
+        </button>
+        <button class="btn btn-outline" onclick="closePaywall()">
+          Browse Only
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+  <script src="js/config.js"></script>
+  <script src="js/utils/constants.js"></script>
+  <script src="js/utils/helpers.js"></script>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/utils/trial.js"></script>
+  <script src="js/api/tmdb.js"></script>
+  <script src="js/components/toast.js"></script>
+  <script src="js/components/mediaCard.js"></script>
+  <script src="js/components/mediaRow.js"></script>
+  <script src="js/components/hero.js"></script>
+  <script src="js/components/modal.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/router.js"></script>
+
+  <!-- Inline bootstrap — runs after all scripts load -->
+  <script>
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // S or / = focus search
+      if ((e.key === 's' || e.key === '/') && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.getElementById('navSearchInput').focus();
+      }
+      // Escape = close modals / paywall
+      if (e.key === 'Escape') {
+        closePaywall();
+        if (typeof closeModal === 'function') closeModal();
+        document.getElementById('navSearchInput').blur();
+      }
+    });
+
+    // Back to top
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Paywall helpers
+    function closePaywall() {
+      document.getElementById('paywallOverlay').classList.remove('active');
+    }
+    function openPaywall() {
+      document.getElementById('paywallOverlay').classList.add('active');
+    }
+
+    // Auth modal stub (wired in auth.js)
+    function openAuthModal(tab) {
+      if (typeof AuthModal !== 'undefined') {
+        AuthModal.open(tab);
+      } else {
+        window.location.href = 'pages/auth.html';
+      }
+    }
+
+    // Category tabs
+    document.querySelectorAll('.cat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        // Will be handled by router.js in Step 5
+      });
+    });
+
+    // Region pills
+    document.querySelectorAll('.region-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.region-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        // Will trigger world cinema row refresh in mediaRow.js
+      });
+    });
+
+    // Mood cards
+    document.querySelectorAll('.mood-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const mood = card.dataset.mood;
+        window.location.href = `pages/search.html?mood=${mood}`;
+      });
+    });
+
+    // Mobile hamburger
+    const hamburger  = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('open');
+    });
+
+    // Close mobile nav on outside click
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+        mobileNav.classList.remove('open');
+      }
+    });
+  </script>
+
+</body>
+</html>

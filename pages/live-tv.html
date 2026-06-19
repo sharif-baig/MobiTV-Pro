@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MobiTv — Live TV</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+  <link rel="stylesheet" href="../css/live-tv.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="../index.html" class="navbar__logo">MOBI<span>TV</span></a>
+    <ul class="navbar__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="series.html">Series</a></li>
+      <li><a href="anime.html">Anime</a></li>
+      <li><a href="live-tv.html" class="active">Live TV</a></li>
+      <li><a href="games.html">🎮 Games</a></li>
+    </ul>
+    <div class="navbar__right">
+      <div class="navbar__search">
+        <span class="navbar__search-icon">🔍</span>
+        <input class="navbar__search-input" id="navSearchInput" type="text" placeholder="Search channels..." />
+      </div>
+      <div id="navAuthButtons">
+        <button class="btn-signin" onclick="window.location.href='auth.html'">Sign In</button>
+        <button class="btn-signup" onclick="window.location.href='auth.html#register'">Sign Up</button>
+      </div>
+      <button class="navbar__avatar hidden" id="navAvatar">M</button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper page-enter">
+
+    <!-- HERO -->
+    <div class="live-hero">
+      <div class="live-hero__content">
+        <div class="live-hero__badge">
+          <span class="badge badge-live">LIVE</span>
+          <span class="live-hero__count" id="channelCount">Loading channels...</span>
+        </div>
+        <h1 class="live-hero__title">Live TV</h1>
+        <p class="live-hero__desc">
+          Watch live news, sports, entertainment, kids and documentary channels from around the world — completely free.
+        </p>
+
+        <!-- Search -->
+        <div class="live-search">
+          <span class="live-search__icon">🔍</span>
+          <input
+            class="live-search__input"
+            id="channelSearch"
+            type="text"
+            placeholder="Search channels, countries..."
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY TABS -->
+    <div class="page-section">
+      <div class="live-cats scrollable-x" id="liveCats">
+        <button class="live-cat active" data-cat="all">🌐 All</button>
+        <button class="live-cat" data-cat="news">📰 News</button>
+        <button class="live-cat" data-cat="sports">⚽ Sports</button>
+        <button class="live-cat" data-cat="entertainment">🎭 Entertainment</button>
+        <button class="live-cat" data-cat="kids">🧸 Kids</button>
+        <button class="live-cat" data-cat="documentary">🌍 Documentary</button>
+        <button class="live-cat" data-cat="music">🎵 Music</button>
+        <button class="live-cat" data-cat="business">💼 Business</button>
+        <button class="live-cat" data-cat="religious">🕌 Religious</button>
+      </div>
+
+      <!-- Country Filter -->
+      <div class="live-countries scrollable-x" id="liveCountries">
+        <button class="country-pill active" data-country="all">🌍 All Regions</button>
+        <button class="country-pill" data-country="US">🇺🇸 USA</button>
+        <button class="country-pill" data-country="GB">🇬🇧 UK</button>
+        <button class="country-pill" data-country="PK">🇵🇰 Pakistan</button>
+        <button class="country-pill" data-country="IN">🇮🇳 India</button>
+        <button class="country-pill" data-country="TR">🇹🇷 Turkey</button>
+        <button class="country-pill" data-country="AR">🇸🇦 Arabic</button>
+        <button class="country-pill" data-country="DE">🇩🇪 Germany</button>
+        <button class="country-pill" data-country="FR">🇫🇷 France</button>
+        <button class="country-pill" data-country="JP">🇯🇵 Japan</button>
+        <button class="country-pill" data-country="KR">🇰🇷 Korea</button>
+      </div>
+    </div>
+
+    <!-- CHANNELS GRID -->
+    <div class="page-section">
+      <div class="section-header">
+        <h2 class="section-title" id="gridTitle">
+          <span class="icon">📡</span> All Channels
+        </h2>
+        <span class="section-see-all" id="gridCount"></span>
+      </div>
+
+      <!-- Skeleton -->
+      <div class="live-grid" id="channelsGrid">
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+        <div class="skeleton live-channel-skeleton"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CHANNEL PLAYER MODAL -->
+  <div class="channel-modal" id="channelModal">
+    <div class="channel-modal__backdrop" onclick="closeChannelModal()"></div>
+    <div class="channel-modal__box">
+
+      <div class="channel-modal__header">
+        <div class="channel-modal__info">
+          <img class="channel-modal__logo" id="modalChannelLogo" src="" alt="" />
+          <div>
+            <div class="channel-modal__name" id="modalChannelName">Channel</div>
+            <div class="channel-modal__meta" id="modalChannelMeta"></div>
+          </div>
+        </div>
+        <button class="channel-modal__close" onclick="closeChannelModal()">✕</button>
+      </div>
+
+      <!-- Player launch -->
+      <div class="channel-modal__player" id="channelPlayerArea">
+        <div class="channel-launch">
+          <span class="badge badge-live" style="font-size:14px; padding:6px 16px;">● LIVE</span>
+          <div class="channel-launch__name" id="channelLaunchName">Loading...</div>
+          <p class="channel-launch__hint">Click the button below to watch this live channel</p>
+          <button class="player-launch__btn" id="channelWatchBtn" onclick="watchChannel()">
+            <span>📡</span> &nbsp; Watch Live
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="../js/config.js"></script>
+  <script src="../js/utils/constants.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/trial.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/api/iptv.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/router.js"></script>
+
+  <script>
+    let _allChannels     = [];
+    let _activeCategory  = 'all';
+    let _activeCountry   = 'all';
+    let _currentChannel  = null;
+
+    /* ── Load channels ── */
+    async function loadChannels() {
+      try {
+        /* Try local curated list first */
+        const res  = await fetch('../data/channels.json');
+        const data = await res.json();
+        _allChannels = data;
+        renderChannels(_allChannels);
+        document.getElementById('channelCount').textContent =
+          `${_allChannels.length} channels available`;
+      } catch (err) {
+        console.error('[LiveTV] Failed to load channels:', err);
+        document.getElementById('channelsGrid').innerHTML =
+          '<div class="row-empty">Failed to load channels. Please try again.</div>';
+      }
+    }
+
+    /* ── Render channels grid ── */
+    function renderChannels(channels) {
+      const grid    = document.getElementById('channelsGrid');
+      const countEl = document.getElementById('gridCount');
+
+      if (countEl) countEl.textContent = `${channels.length} channels`;
+
+      if (!channels.length) {
+        grid.innerHTML = '<div class="row-empty">No channels found for this filter</div>';
+        return;
+      }
+
+      grid.innerHTML = channels.map((ch, i) => `
+        <div class="live-channel-card" onclick="openChannel('${ch.id}')">
+          <span class="badge badge-live">LIVE</span>
+          ${ch.logo
+            ? `<img class="live-channel-card__logo" src="${ch.logo}" alt="${ch.name}"
+                onerror="this.style.display='none'" loading="lazy" />`
+            : `<div class="live-channel-card__logo-fallback">${ch.name[0]}</div>`
+          }
+          <div class="live-channel-card__name">${Helpers.truncate(ch.name, 22)}</div>
+          <div class="live-channel-card__country">${_countryFlag(ch.country)} ${ch.country || ''}</div>
+        </div>
+      `).join('');
+    }
+
+    /* ── Filter channels ── */
+    function filterChannels() {
+      let filtered = [..._allChannels];
+
+      if (_activeCategory !== 'all') {
+        filtered = filtered.filter(ch =>
+          ch.category?.toLowerCase().includes(_activeCategory.toLowerCase())
+        );
+      }
+
+      if (_activeCountry !== 'all') {
+        filtered = filtered.filter(ch =>
+          ch.country?.toLowerCase() === _activeCountry.toLowerCase()
+        );
+      }
+
+      const query = document.getElementById('channelSearch')?.value?.trim().toLowerCase();
+      if (query) {
+        filtered = filtered.filter(ch =>
+          ch.name?.toLowerCase().includes(query) ||
+          ch.country?.toLowerCase().includes(query)
+        );
+      }
+
+      renderChannels(filtered);
+
+      /* Update title */
+      const titleEl = document.getElementById('gridTitle');
+      if (titleEl) {
+        const cat  = _activeCategory !== 'all' ? Helpers.capitalize(_activeCategory) : 'All';
+        titleEl.innerHTML = `<span class="icon">📡</span> ${cat} Channels`;
+      }
+    }
+
+    /* ── Open channel modal ── */
+    function openChannel(channelId) {
+      const ch = _allChannels.find(c => c.id === channelId);
+      if (!ch) return;
+      _currentChannel = ch;
+
+      /* Populate modal */
+      const logo = document.getElementById('modalChannelLogo');
+      const name = document.getElementById('modalChannelName');
+      const meta = document.getElementById('modalChannelMeta');
+      const lname= document.getElementById('channelLaunchName');
+
+      if (logo) { logo.src = ch.logo || ''; logo.style.display = ch.logo ? 'block' : 'none'; }
+      if (name) name.textContent = ch.name;
+      if (meta) meta.textContent = `${_countryFlag(ch.country)} ${ch.country || ''} · ${ch.category || 'General'}`;
+      if (lname) lname.textContent = ch.name;
+
+      document.getElementById('channelModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    /* ── Watch channel ── */
+    function watchChannel() {
+      if (!_currentChannel?.url) {
+        if (typeof showToast === 'function') showToast('Stream URL not available', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('channelWatchBtn');
+
+      /* Open stream in new tab */
+      window.open(_currentChannel.url, '_blank');
+
+      if (btn) {
+        btn.textContent = '✅ Stream Opened!';
+        btn.style.background = '#2ecc71';
+        setTimeout(() => {
+          btn.innerHTML = '<span>📡</span> &nbsp; Watch Live';
+          btn.style.background = '';
+        }, 3000);
+      }
+    }
+
+    /* ── Close modal ── */
+    function closeChannelModal() {
+      document.getElementById('channelModal').classList.remove('active');
+      document.body.style.overflow = '';
+      _currentChannel = null;
+    }
+
+    /* ── Country flag helper ── */
+    function _countryFlag(code) {
+      if (!code || code === 'INT') return '🌍';
+      const flags = {
+        US:'🇺🇸', GB:'🇬🇧', PK:'🇵🇰', IN:'🇮🇳', TR:'🇹🇷',
+        DE:'🇩🇪', FR:'🇫🇷', JP:'🇯🇵', KR:'🇰🇷', CN:'🇨🇳',
+        QA:'🇶🇦', RU:'🇷🇺', SA:'🇸🇦', AE:'🇦🇪',
+      };
+      return flags[code.toUpperCase()] || '🌍';
+    }
+
+    /* ── Wire category tabs ── */
+    document.querySelectorAll('.live-cat').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.live-cat').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        _activeCategory = btn.dataset.cat;
+        filterChannels();
+      });
+    });
+
+    /* ── Wire country pills ── */
+    document.querySelectorAll('.country-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.country-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        _activeCountry = btn.dataset.country;
+        filterChannels();
+      });
+    });
+
+    /* ── Wire search ── */
+    const searchInput = document.getElementById('channelSearch');
+    if (searchInput) {
+      searchInput.addEventListener('input', Helpers.debounce(filterChannels, 300));
+    }
+
+    /* ── Keyboard shortcut ── */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeChannelModal();
+    });
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', () => {
+      NavbarModule.init();
+      TrialManager.init();
+      loadChannels();
+
+      /* Read URL params for category */
+      const cat = new URLSearchParams(window.location.search).get('cat');
+      if (cat) {
+        _activeCategory = cat;
+        const btn = document.querySelector(`.live-cat[data-cat="${cat}"]`);
+        if (btn) {
+          document.querySelectorAll('.live-cat').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

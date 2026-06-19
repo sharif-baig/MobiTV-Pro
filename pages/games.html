@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MobiTv — Retro Games</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/games.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="../index.html" class="navbar__logo">MOBI<span>TV</span></a>
+    <ul class="navbar__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="series.html">Series</a></li>
+      <li><a href="live-tv.html">Live TV</a></li>
+      <li><a href="games.html" class="active">🎮 Games</a></li>
+    </ul>
+    <div class="navbar__right">
+      <div class="navbar__search">
+        <span class="navbar__search-icon">🔍</span>
+        <input class="navbar__search-input" id="navSearchInput" type="text" placeholder="Search..." />
+      </div>
+      <div id="navAuthButtons">
+        <button class="btn-signin" onclick="window.location.href='auth.html'">Sign In</button>
+        <button class="btn-signup" onclick="window.location.href='auth.html#register'">Sign Up</button>
+      </div>
+      <button class="navbar__avatar hidden" id="navAvatar">M</button>
+    </div>
+  </nav>
+
+  <main class="page-wrapper page-enter">
+
+    <!-- GAME PLAYER SECTION (hidden until game selected) -->
+    <div class="game-player-section" id="gamePlayerSection" style="display:none">
+
+      <!-- Back Button -->
+      <div style="grid-column:1/-1; padding-top: var(--space-2);">
+        <button class="game-back-btn" onclick="backToLibrary()">← Back to Games</button>
+      </div>
+
+      <!-- Emulator Container -->
+      <div class="game-container-wrap">
+        <div class="game-container" id="gameContainer">
+          <!-- EmulatorJS injects here -->
+          <div class="game-loading">
+            <div class="game-loading__icon">🎮</div>
+            <div class="game-loading__text">Loading game...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Info Panel -->
+      <div class="game-info-panel" id="gameInfo">
+        <!-- Populated by GamesModule.loadGameById -->
+      </div>
+
+    </div>
+
+    <!-- GAMES LIBRARY -->
+    <div class="games-library" id="gamesLibrary">
+
+      <!-- Hero -->
+      <div class="games-hero">
+        <div class="games-hero__content">
+          <div class="games-hero__icon">🕹️</div>
+          <h1 class="games-hero__title">Retro Games</h1>
+          <p class="games-hero__desc">
+            Play classic NES, SNES, Arcade and Sega Genesis retro games powered by Archive.org — completely free, no download needed. Click any game to launch the built-in browser emulator.
+          </p>
+        </div>
+        <div class="games-hero__systems">
+          <span class="system-chip system-nes">NES</span>
+          <span class="system-chip system-snes">SNES</span>
+          <span class="system-chip system-gb">Game Boy</span>
+          <span class="system-chip system-gen">Sega Genesis</span>
+          <span class="system-chip system-nes">Arcade</span>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="page-section">
+        <div class="game-filters scrollable-x">
+          <button class="game-filter active" data-filter="all">🎮 All Games</button>
+          <button class="game-filter" data-filter="NES">🕹️ NES</button>
+          <button class="game-filter" data-filter="SNES">🎮 SNES</button>
+          <button class="game-filter" data-filter="Arcade">👾 Arcade</button>
+          <button class="game-filter" data-filter="Game Boy">📱 Game Boy</button>
+          <button class="game-filter" data-filter="Sega Genesis">⚡ Sega</button>
+          <button class="game-filter" data-filter="Platform">🏃 Platform</button>
+          <button class="game-filter" data-filter="Fighting">🥊 Fighting</button>
+          <button class="game-filter" data-filter="RPG">⚔️ RPG</button>
+          <button class="game-filter" data-filter="Puzzle">🧩 Puzzle</button>
+        </div>
+      </div>
+
+      <!-- Games Grid -->
+      <div class="page-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="icon">🎮</span> Game Library
+          </h2>
+          <span class="section-see-all" id="gamesCount"></span>
+        </div>
+        <div class="games-grid" id="gamesGrid">
+          <!-- Skeletons -->
+          <div class="skeleton" style="height:200px; border-radius:12px;"></div>
+          <div class="skeleton" style="height:200px; border-radius:12px;"></div>
+          <div class="skeleton" style="height:200px; border-radius:12px;"></div>
+          <div class="skeleton" style="height:200px; border-radius:12px;"></div>
+          <div class="skeleton" style="height:200px; border-radius:12px;"></div>
+          <div class="skeleton" style="height:200px; border-radius:12px;"></div>
+        </div>
+      </div>
+
+      <!-- How to Play -->
+      <div class="page-section">
+        <div class="how-to-play">
+          <h2 class="how-to-play__title">🎮 How to Play</h2>
+          <div class="how-to-play__grid">
+            <div class="how-to-step">
+              <div class="how-to-step__num">1</div>
+              <div class="how-to-step__text">Click any game to launch it</div>
+            </div>
+            <div class="how-to-step">
+              <div class="how-to-step__num">2</div>
+              <div class="how-to-step__text">Wait for the emulator to load</div>
+            </div>
+            <div class="how-to-step">
+              <div class="how-to-step__num">3</div>
+              <div class="how-to-step__text">Use keyboard or connect a gamepad</div>
+            </div>
+            <div class="how-to-step">
+              <div class="how-to-step__num">4</div>
+              <div class="how-to-step__text">Press F for fullscreen</div>
+            </div>
+          </div>
+          <div class="controls-table">
+            <div class="controls-row controls-header">
+              <span>Key</span><span>Action</span>
+              <span>Key</span><span>Action</span>
+            </div>
+            <div class="controls-row">
+              <span class="kbd">↑ ↓ ← →</span><span>Move / D-Pad</span>
+              <span class="kbd">Z</span><span>A Button</span>
+            </div>
+            <div class="controls-row">
+              <span class="kbd">X</span><span>B Button</span>
+              <span class="kbd">A</span><span>Y Button</span>
+            </div>
+            <div class="controls-row">
+              <span class="kbd">S</span><span>X Button</span>
+              <span class="kbd">Enter</span><span>Start</span>
+            </div>
+            <div class="controls-row">
+              <span class="kbd">Shift</span><span>Select</span>
+              <span class="kbd">F</span><span>Fullscreen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end games-library -->
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="../js/config.js"></script>
+  <script src="../js/utils/constants.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/trial.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/api/games.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/router.js"></script>
+
+  <script>
+    let _allGames     = [];
+    let _activeFilter = 'all';
+
+    /* ── Render games grid ── */
+    function renderGames(games) {
+      const grid    = document.getElementById('gamesGrid');
+      const countEl = document.getElementById('gamesCount');
+      if (countEl) countEl.textContent = `${games.length} games`;
+
+      if (!games.length) {
+        grid.innerHTML = '<div class="row-empty">No games found</div>';
+        return;
+      }
+
+      grid.innerHTML = games.map(game => GamesModule.buildCard(game)).join('');
+    }
+
+    /* ── Filter games ── */
+    function filterGames(filter) {
+      _activeFilter = filter;
+      if (filter === 'all') {
+        renderGames(_allGames);
+      } else {
+        const filtered = _allGames.filter(g =>
+          g.genre?.toLowerCase().includes(filter.toLowerCase()) ||
+          g.system?.toLowerCase().includes(filter.toLowerCase())
+        );
+        renderGames(filtered);
+      }
+    }
+
+    /* ── Select and launch game ── */
+    async function selectGame(id) {
+      const game = _allGames.find(g => g.id === id);
+      if (!game?.url) return;
+      GamesModule.openGame(id, game.url);
+    }
+
+    /* ── Back to library ── */
+    function backToLibrary() {
+      const library = document.getElementById('gamesLibrary');
+      const player  = document.getElementById('gamePlayerSection');
+      const gc      = document.getElementById('gameContainer');
+
+      if (library) library.style.display = 'block';
+      if (player)  player.style.display  = 'none';
+
+      /* Clear emulator */
+      if (gc) gc.innerHTML = `
+        <div class="game-loading">
+          <div class="game-loading__icon">🎮</div>
+          <div class="game-loading__text">Select a game to play</div>
+        </div>
+      `;
+
+      /* Remove emulatorjs script to reset state */
+      const oldScript = document.querySelector('script[src*="emulatorjs"]');
+      if (oldScript) oldScript.remove();
+
+      history.replaceState({}, '', 'games.html');
+      document.title = 'MobiTv — Retro Games';
+    }
+
+    /* ── Wire filter tabs ── */
+    document.querySelectorAll('.game-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.game-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterGames(btn.dataset.filter);
+      });
+    });
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', async () => {
+      NavbarModule.init();
+      TrialManager.init();
+
+      /* Load games */
+      _allGames = await GamesModule.loadGames();
+      renderGames(_allGames);
+
+      /* Check URL params */
+      const id = new URLSearchParams(window.location.search).get('id');
+      if (id) selectGame(id);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MobiTv — Watch</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/cards.css" />
+  <link rel="stylesheet" href="../css/player.css" />
+</head>
+
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar">
+    <a href="../index.html" class="navbar__logo">MOBI<span>TV</span></a>
+    <ul class="navbar__links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="series.html">Series</a></li>
+      <li><a href="anime.html">Anime</a></li>
+      <li><a href="live-tv.html">Live TV</a></li>
+      <li><a href="games.html">🎮 Games</a></li>
+    </ul>
+    <div class="navbar__right">
+      <div class="navbar__search">
+        <span class="navbar__search-icon">🔍</span>
+        <input class="navbar__search-input" id="navSearchInput" type="text" placeholder="Search..." />
+      </div>
+      <div id="navAuthButtons">
+        <button class="btn-signin"  onclick="window.location.href='auth.html'">Sign In</button>
+        <button class="btn-signup"  onclick="window.location.href='auth.html#register'">Sign Up</button>
+      </div>
+      <button class="navbar__avatar hidden" id="navAvatar" onclick="window.location.href='profile.html'">M</button>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="watch-page page-enter">
+
+    <!-- ════════════════════════════════
+         PLAYER SECTION
+    ════════════════════════════════ -->
+    <div class="player-section">
+
+      <!-- Player Container -->
+      <div class="player-wrap" id="playerWrap">
+
+        <!-- Skeleton loader -->
+        <div class="player-skeleton" id="playerSkeleton">
+          <div class="player-skeleton__icon">⏳</div>
+          <div class="player-skeleton__text">Loading stream...</div>
+        </div>
+
+        <!-- Iframe -->
+        <iframe
+          id="playerIframe"
+          class="player-iframe"
+          allowfullscreen
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer"
+          referrerpolicy="no-referrer-when-downgrade"
+          scrolling="no"
+          frameborder="0"
+        ></iframe>
+
+      </div>
+      <!-- end player-wrap -->
+
+      <!-- Player Controls Bar -->
+      <div class="player-controls-bar">
+
+        <!-- Title -->
+        <div class="player-title-wrap">
+          <h1 class="player-title" id="playerTitle">Loading...</h1>
+          <div class="player-ep-info" id="playerEpInfo"></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="player-actions">
+          <button class="btn btn-ghost btn-sm" id="playerWatchlistBtn" onclick="PlayerModule.toggleWatchlist()">
+            ＋ Watchlist
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="PlayerModule.prevEpisode()" id="prevEpBtn" style="display:none">
+            ← Prev
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="PlayerModule.nextEpisode()" id="nextEpBtn" style="display:none">
+            Next →
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="window.history.back()">← Back</button>
+        </div>
+
+      </div>
+
+      <!-- Server Tabs -->
+      <div class="player-server-section">
+        <span class="player-server-label">🖥 Stream Server:</span>
+        <div class="server-tabs" id="serverTabs"></div>
+        <span class="player-server-hint">If one server doesn't work, try another</span>
+      </div>
+
+    </div>
+    <!-- end player-section -->
+
+    <!-- ════════════════════════════════
+         MEDIA INFO SIDEBAR
+    ════════════════════════════════ -->
+    <div class="media-info-sidebar">
+
+      <!-- Poster -->
+      <img
+        class="media-info__poster"
+        id="mediaPoster"
+        src=""
+        alt="Poster"
+      />
+
+      <!-- Details -->
+      <div class="media-info__details">
+
+        <h2 class="media-info__title"  id="mediaTitle">Loading...</h2>
+        <div class="media-info__meta"  id="mediaMeta"></div>
+        <p class="media-info__overview" id="mediaOverview"></p>
+
+        <!-- Genres -->
+        <div class="media-info__genres" id="mediaGenres"></div>
+
+        <!-- Season / Episode Selector (TV only) -->
+        <div class="episode-selector" id="episodeSelector" style="display:none">
+          <div class="episode-selector__header">
+            <span class="episode-selector__label">Season</span>
+            <select class="episode-selector__season" id="seasonSelect"></select>
+          </div>
+          <div class="episode-grid" id="episodeGrid"></div>
+        </div>
+
+        <!-- Cast -->
+        <div class="media-info__section">
+          <div class="media-info__section-title">Cast</div>
+          <div class="cast-row scrollable-x" id="mediaCast"></div>
+        </div>
+
+      </div>
+    </div>
+    <!-- end media-info-sidebar -->
+
+    <!-- ════════════════════════════════
+         SIMILAR CONTENT ROW
+    ════════════════════════════════ -->
+    <div class="similar-section" id="similarSection">
+      <div class="section-header">
+        <h2 class="section-title"><span class="icon">🎬</span> More Like This</h2>
+      </div>
+      <div class="media-row scrollable-x" id="similarRow">
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Paywall -->
+  <div class="paywall-overlay" id="paywallOverlay">
+    <div class="paywall-card">
+      <div class="paywall-icon">🎬</div>
+      <h2 class="paywall-title">Trial Ended</h2>
+      <p class="paywall-text">Upgrade to keep watching unlimited content on MobiTv.</p>
+      <div class="paywall-btns">
+        <button class="btn btn-primary btn-lg" onclick="window.location.href='auth.html#upgrade'">🚀 Upgrade Now</button>
+        <button class="btn btn-outline" onclick="window.history.back()">← Go Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/config.js"></script>
+  <script src="../js/utils/constants.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/trial.js"></script>
+  <script src="../js/api/tmdb.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/components/mediaCard.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/player.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/router.js"></script>
+
+  <script>
+    /* ── Season / Episode selector ── */
+    function _buildSeasonSelector(details) {
+      const selector = document.getElementById('episodeSelector');
+      const select   = document.getElementById('seasonSelect');
+      const grid     = document.getElementById('episodeGrid');
+      const prevBtn  = document.getElementById('prevEpBtn');
+      const nextBtn  = document.getElementById('nextEpBtn');
+
+      if (!selector || !select) return;
+      selector.style.display = 'block';
+      if (prevBtn) prevBtn.style.display = 'inline-flex';
+      if (nextBtn) nextBtn.style.display = 'inline-flex';
+
+      /* Build season options */
+      const seasons = details.seasons.filter(s => s.number > 0);
+      select.innerHTML = seasons.map(s =>
+        `<option value="${s.number}">Season ${s.number} (${s.episodes} eps)</option>`
+      ).join('');
+
+      /* Load episodes for selected season */
+      async function loadEpisodes(seasonNum) {
+        if (!grid) return;
+        grid.innerHTML = '<div class="skeleton" style="height:40px;width:100%;border-radius:8px"></div>';
+
+        try {
+          const res     = await TMDB.TV.season(details.id, seasonNum);
+          const episodes = res?.episodes || [];
+          grid.innerHTML = episodes.map(ep => `
+            <button
+              class="episode-btn"
+              onclick="PlayerModule.goToEpisode(${seasonNum}, ${ep.episode_number})"
+              title="${ep.name}"
+            >
+              <span class="ep-num">E${ep.episode_number}</span>
+              <span class="ep-name">${Helpers.truncate(ep.name, 18)}</span>
+            </button>
+          `).join('');
+        } catch {
+          grid.innerHTML = '<div class="row-empty">Episodes unavailable</div>';
+        }
+      }
+
+      select.addEventListener('change', () => loadEpisodes(parseInt(select.value)));
+      loadEpisodes(1);
+    }
+
+    /* ── Init on page load ── */
+    document.addEventListener('DOMContentLoaded', async () => {
+      TrialManager.init();
+      NavbarModule.init();
+
+      const params = new URLSearchParams(window.location.search);
+      const type   = params.get('type');
+      const id     = parseInt(params.get('id'));
+      const s      = parseInt(params.get('s')) || 1;
+      const e      = parseInt(params.get('e')) || 1;
+
+      if (!type || !id) return;
+
+      /* Update page title */
+      document.title = 'MobiTv — Loading...';
+
+      try {
+        /* Fetch full details */
+        let raw, details;
+        if (type === 'movie') {
+          raw     = await TMDB.Movies.details(id);
+          details = TMDB.Normalize.details(raw);
+          details.type = 'movie';
+        } else {
+          raw     = await TMDB.TV.details(id);
+          details = TMDB.Normalize.details(raw);
+          details.type = type; /* preserve 'anime' if set */
+        }
+
+        if (!details) throw new Error('No details returned');
+
+        /* Update page title */
+        document.title = `MobiTv — ${details.title}`;
+
+        /* Populate sidebar */
+        _populateSidebar(details);
+
+        /* Start player */
+        PlayerModule.load(details, s, e);
+
+        /* Load similar row */
+        const similar = details.similar || [];
+        const row = document.getElementById('similarRow');
+        if (row && similar.length) {
+          Helpers.clearElement(row);
+          similar.slice(0, 8).forEach((item, i) => {
+            const card = MediaCard.buildPortrait(item, i);
+            if (card) row.appendChild(card);
+          });
+        }
+
+        /* Season selector for TV/Anime */
+        if ((type === 'tv' || type === 'anime') && details.seasons?.length) {
+          _buildSeasonSelector(details);
+        }
+
+      } catch (err) {
+        console.error('[Watch] Init failed:', err);
+        /* Fallback — play with minimal info */
+        PlayerModule.load({ id, type, title: 'Unknown Title' }, s, e);
+      }
+
+      /* Keyboard shortcuts */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.getElementById('paywallOverlay')?.classList.remove('active');
+        }
+      });
+    });
+
+    /* ── Populate sidebar with details ── */
+    function _populateSidebar(item) {
+      const posterEl   = document.getElementById('mediaPoster');
+      const titleEl    = document.getElementById('mediaTitle');
+      const metaEl     = document.getElementById('mediaMeta');
+      const overviewEl = document.getElementById('mediaOverview');
+      const genresEl   = document.getElementById('mediaGenres');
+      const castEl     = document.getElementById('mediaCast');
+
+      if (posterEl && item.poster) {
+        posterEl.src = item.poster;
+        posterEl.onerror = () => { posterEl.src = Helpers.placeholderImg(item.title, 0); };
+      }
+
+      if (titleEl) titleEl.textContent = item.title || '';
+
+      if (metaEl) {
+        metaEl.innerHTML = `
+          ${item.rating > 0 ? `<span class="meta-rating">⭐ ${item.rating}</span>` : ''}
+          ${item.year     ? `<span class="meta-year">${item.year}</span>` : ''}
+          ${item.runtime  ? `<span class="meta-runtime">${item.runtime}</span>` : ''}
+          ${item.seasons  ? `<span class="meta-seasons">${item.seasons} Seasons</span>` : ''}
+        `;
+      }
+
+      if (overviewEl) overviewEl.textContent = Helpers.truncate(item.overview || '', 280);
+
+      if (genresEl && item.genres?.length) {
+        const names = typeof item.genres[0] === 'string'
+          ? item.genres
+          : Object.entries(MobiConstants.genres[item.type === 'movie' ? 'movie' : 'tv'] || {})
+              .filter(([, gid]) => item.genres.includes(gid))
+              .map(([name]) => Helpers.capitalize(name));
+        genresEl.innerHTML = names.slice(0, 4).map(g => `<span class="genre-chip">${g}</span>`).join('');
+      }
+
+      if (castEl && item.cast?.length) {
+        castEl.innerHTML = item.cast.slice(0, 6).map(c => `
+          <div class="cast-item">
+            <img src="${c.photo || Helpers.placeholderImg(c.name, 0)}"
+                 alt="${c.name}"
+                 onerror="this.src='${Helpers.placeholderImg(c.name, 0)}'" />
+            <span class="cast-name">${c.name}</span>
+            <span class="cast-char">${Helpers.truncate(c.character || '', 18)}</span>
+          </div>
+        `).join('');
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MobiTv — Sign in, create your account or upgrade your plan." />
+  <title>MobiTv — Account</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+</head>
+
+<body class="auth-page">
+
+  <!-- ── NAVBAR (minimal) ── -->
+  <nav class="auth-nav">
+    <a href="../index.html" class="navbar__logo">MOBI<span>TV</span></a>
+    <a href="../index.html" class="auth-nav__back">← Back to Home</a>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       AUTH WRAPPER
+  ══════════════════════════════════════════ -->
+  <div class="auth-wrapper" id="authWrapper">
+
+    <!-- ── BACKGROUND CINEMATIC BLUR ── -->
+    <div class="auth-bg">
+      <div class="auth-bg__grid"></div>
+      <div class="auth-bg__glow auth-bg__glow--1"></div>
+      <div class="auth-bg__glow auth-bg__glow--2"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TABS: LOGIN / REGISTER / UPGRADE
+    ══════════════════════════════════════ -->
+    <div class="auth-container page-enter">
+
+      <!-- Tab Switcher -->
+      <div class="auth-tabs" id="authTabs">
+        <button class="auth-tab active" data-tab="login"    onclick="switchTab('login')">Sign In</button>
+        <button class="auth-tab"        data-tab="register" onclick="switchTab('register')">Register</button>
+        <button class="auth-tab auth-tab--upgrade" data-tab="upgrade" onclick="switchTab('upgrade')">
+          ⚡ Upgrade
+        </button>
+      </div>
+
+      <!-- ────────────────────────────────────
+           LOGIN PANEL
+      ──────────────────────────────────── -->
+      <div class="auth-panel active" id="panelLogin">
+
+        <div class="auth-header">
+          <h1 class="auth-title">Welcome back</h1>
+          <p class="auth-subtitle">Sign in to continue watching</p>
+        </div>
+
+        <!-- Social Login -->
+        <div class="social-btns">
+          <button class="social-btn" id="googleLoginBtn">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" height="18" />
+            Continue with Google
+          </button>
+        </div>
+
+        <div class="auth-divider"><span>or sign in with email</span></div>
+
+        <!-- Login Form -->
+        <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Email Address</label>
+            <div class="form-input-wrap">
+              <span class="form-icon">✉</span>
+              <input
+                class="form-input"
+                id="loginEmail"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <span class="form-error" id="loginEmailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">
+              Password
+              <a href="#" class="form-label__link" onclick="switchTab('forgot')">Forgot password?</a>
+            </label>
+            <div class="form-input-wrap">
+              <span class="form-icon">🔒</span>
+              <input
+                class="form-input"
+                id="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" class="form-eye" onclick="togglePassword('loginPassword', this)">👁</button>
+            </div>
+            <span class="form-error" id="loginPasswordError"></span>
+          </div>
+
+          <div class="form-row">
+            <label class="form-checkbox">
+              <input type="checkbox" id="rememberMe" />
+              <span class="form-checkbox__box"></span>
+              Remember me
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-submit" id="loginSubmitBtn">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-loader hidden">⏳</span>
+          </button>
+
+          <p class="auth-switch">
+            Don't have an account?
+            <a href="#" onclick="switchTab('register')">Create one free →</a>
+          </p>
+
+        </form>
+
+      </div>
+
+      <!-- ────────────────────────────────────
+           REGISTER PANEL
+      ──────────────────────────────────── -->
+      <div class="auth-panel" id="panelRegister">
+
+        <div class="auth-header">
+          <h1 class="auth-title">Start watching free</h1>
+          <p class="auth-subtitle">7-day full access trial — no credit card needed</p>
+        </div>
+
+        <!-- Trial Highlight -->
+        <div class="trial-highlight">
+          <div class="trial-highlight__item">✅ Full access for 7 days</div>
+          <div class="trial-highlight__item">✅ No credit card required</div>
+          <div class="trial-highlight__item">✅ Cancel anytime</div>
+        </div>
+
+        <!-- Social Register -->
+        <div class="social-btns">
+          <button class="social-btn" id="googleRegisterBtn">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" height="18" />
+            Continue with Google
+          </button>
+        </div>
+
+        <div class="auth-divider"><span>or register with email</span></div>
+
+        <!-- Register Form -->
+        <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+
+          <div class="form-row form-row--2col">
+            <div class="form-group">
+              <label class="form-label" for="regFirstName">First Name</label>
+              <div class="form-input-wrap">
+                <span class="form-icon">👤</span>
+                <input
+                  class="form-input"
+                  id="regFirstName"
+                  type="text"
+                  placeholder="John"
+                  autocomplete="given-name"
+                  required
+                />
+              </div>
+              <span class="form-error" id="regFirstNameError"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regLastName">Last Name</label>
+              <div class="form-input-wrap">
+                <span class="form-icon">👤</span>
+                <input
+                  class="form-input"
+                  id="regLastName"
+                  type="text"
+                  placeholder="Doe"
+                  autocomplete="family-name"
+                  required
+                />
+              </div>
+              <span class="form-error" id="regLastNameError"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address</label>
+            <div class="form-input-wrap">
+              <span class="form-icon">✉</span>
+              <input
+                class="form-input"
+                id="regEmail"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <span class="form-error" id="regEmailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Password</label>
+            <div class="form-input-wrap">
+              <span class="form-icon">🔒</span>
+              <input
+                class="form-input"
+                id="regPassword"
+                type="password"
+                placeholder="Min. 8 characters"
+                autocomplete="new-password"
+                required
+                minlength="8"
+              />
+              <button type="button" class="form-eye" onclick="togglePassword('regPassword', this)">👁</button>
+            </div>
+            <div class="password-strength" id="passwordStrength">
+              <div class="password-strength__bar">
+                <div class="password-strength__fill" id="strengthFill"></div>
+              </div>
+              <span class="password-strength__label" id="strengthLabel">Enter a password</span>
+            </div>
+            <span class="form-error" id="regPasswordError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPasswordConfirm">Confirm Password</label>
+            <div class="form-input-wrap">
+              <span class="form-icon">🔒</span>
+              <input
+                class="form-input"
+                id="regPasswordConfirm"
+                type="password"
+                placeholder="Repeat your password"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+            <span class="form-error" id="regPasswordConfirmError"></span>
+          </div>
+
+          <label class="form-checkbox">
+            <input type="checkbox" id="agreeTerms" required />
+            <span class="form-checkbox__box"></span>
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+
+          <button type="submit" class="btn btn-primary auth-submit" id="registerSubmitBtn">
+            <span class="btn-text">🚀 Start Free Trial</span>
+            <span class="btn-loader hidden">⏳</span>
+          </button>
+
+          <p class="auth-switch">
+            Already have an account?
+            <a href="#" onclick="switchTab('login')">Sign in →</a>
+          </p>
+
+        </form>
+
+      </div>
+
+      <!-- ────────────────────────────────────
+           FORGOT PASSWORD PANEL
+      ──────────────────────────────────── -->
+      <div class="auth-panel" id="panelForgot">
+
+        <div class="auth-header">
+          <h1 class="auth-title">Reset Password</h1>
+          <p class="auth-subtitle">Enter your email and we'll send a reset link</p>
+        </div>
+
+        <form class="auth-form" id="forgotForm" onsubmit="handleForgotPassword(event)">
+          <div class="form-group">
+            <label class="form-label" for="forgotEmail">Email Address</label>
+            <div class="form-input-wrap">
+              <span class="form-icon">✉</span>
+              <input
+                class="form-input"
+                id="forgotEmail"
+                type="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+            <span class="form-error" id="forgotEmailError"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-submit">
+            Send Reset Link
+          </button>
+
+          <p class="auth-switch">
+            <a href="#" onclick="switchTab('login')">← Back to Sign In</a>
+          </p>
+        </form>
+
+      </div>
+
+      <!-- ────────────────────────────────────
+           UPGRADE / PRICING PANEL
+      ──────────────────────────────────── -->
+      <div class="auth-panel upgrade-panel" id="panelUpgrade">
+
+        <div class="auth-header">
+          <h1 class="auth-title">Choose Your Plan</h1>
+          <p class="auth-subtitle" id="upgradeSubtitle">Unlock unlimited access to everything on MobiTv</p>
+        </div>
+
+        <!-- Currency Selector (geo-based, populated by JS) -->
+        <div class="currency-bar">
+          <span class="currency-bar__label">Showing prices in:</span>
+          <div class="currency-selector" id="currencySelector">
+            <button class="currency-btn active" data-currency="USD">🇺🇸 USD</button>
+            <button class="currency-btn" data-currency="PKR">🇵🇰 PKR</button>
+            <button class="currency-btn" data-currency="GBP">🇬🇧 GBP</button>
+            <button class="currency-btn" data-currency="EUR">🇪🇺 EUR</button>
+            <button class="currency-btn" data-currency="INR">🇮🇳 INR</button>
+            <button class="currency-btn" data-currency="AED">🇦🇪 AED</button>
+          </div>
+        </div>
+
+        <!-- Billing Toggle -->
+        <div class="billing-toggle">
+          <span class="billing-toggle__label">Monthly</span>
+          <button class="billing-toggle__switch" id="billingToggle" onclick="toggleBilling()">
+            <span class="billing-toggle__thumb"></span>
+          </button>
+          <span class="billing-toggle__label">
+            Yearly
+            <span class="billing-toggle__save">Save 40%</span>
+          </span>
+        </div>
+
+        <!-- Plans Grid -->
+        <div class="plans-grid" id="plansGrid">
+
+          <!-- Free Plan -->
+          <div class="plan-card" data-plan="free">
+            <div class="plan-card__header">
+              <div class="plan-card__icon">🎬</div>
+              <div class="plan-card__name">Free</div>
+              <div class="plan-card__price">
+                <span class="plan-card__amount" data-usd="0" data-pkr="0">$0</span>
+                <span class="plan-card__period">/ forever</span>
+              </div>
+              <p class="plan-card__desc">Browse everything, watch with ads</p>
+            </div>
+            <ul class="plan-features">
+              <li class="plan-feature plan-feature--yes">Browse all content</li>
+              <li class="plan-feature plan-feature--yes">Live TV (limited)</li>
+              <li class="plan-feature plan-feature--yes">Retro Games</li>
+              <li class="plan-feature plan-feature--no">Ad-free streaming</li>
+              <li class="plan-feature plan-feature--no">HD / 4K quality</li>
+              <li class="plan-feature plan-feature--no">Download (future)</li>
+              <li class="plan-feature plan-feature--no">Multiple profiles</li>
+            </ul>
+            <button class="btn btn-outline plan-btn" onclick="selectPlan('free')">
+              Continue Free
+            </button>
+          </div>
+
+          <!-- Basic Plan -->
+          <div class="plan-card" data-plan="basic">
+            <div class="plan-card__header">
+              <div class="plan-card__icon">⚡</div>
+              <div class="plan-card__name">Basic</div>
+              <div class="plan-card__price">
+                <span class="plan-card__amount"
+                  data-usd-monthly="4.99"
+                  data-usd-yearly="2.99"
+                  data-pkr-monthly="1399"
+                  data-pkr-yearly="839"
+                  data-gbp-monthly="3.99"
+                  data-gbp-yearly="2.39"
+                  data-eur-monthly="4.49"
+                  data-eur-yearly="2.69"
+                  data-inr-monthly="399"
+                  data-inr-yearly="239"
+                  data-aed-monthly="18"
+                  data-aed-yearly="11"
+                >$4.99</span>
+                <span class="plan-card__period">/ month</span>
+              </div>
+              <p class="plan-card__desc">Full access, HD quality, no ads</p>
+            </div>
+            <ul class="plan-features">
+              <li class="plan-feature plan-feature--yes">Everything in Free</li>
+              <li class="plan-feature plan-feature--yes">Ad-free streaming</li>
+              <li class="plan-feature plan-feature--yes">HD quality</li>
+              <li class="plan-feature plan-feature--yes">Full Live TV access</li>
+              <li class="plan-feature plan-feature--yes">Watchlist sync</li>
+              <li class="plan-feature plan-feature--no">4K quality</li>
+              <li class="plan-feature plan-feature--no">Multiple profiles</li>
+            </ul>
+            <button class="btn btn-outline plan-btn" onclick="selectPlan('basic')">
+              Get Basic
+            </button>
+          </div>
+
+          <!-- Premium Plan (highlighted) -->
+          <div class="plan-card plan-card--featured" data-plan="premium">
+            <div class="plan-card__badge">Most Popular</div>
+            <div class="plan-card__header">
+              <div class="plan-card__icon">👑</div>
+              <div class="plan-card__name">Premium</div>
+              <div class="plan-card__price">
+                <span class="plan-card__amount"
+                  data-usd-monthly="8.99"
+                  data-usd-yearly="5.39"
+                  data-pkr-monthly="2499"
+                  data-pkr-yearly="1499"
+                  data-gbp-monthly="6.99"
+                  data-gbp-yearly="4.19"
+                  data-eur-monthly="7.99"
+                  data-eur-yearly="4.79"
+                  data-inr-monthly="749"
+                  data-inr-yearly="449"
+                  data-aed-monthly="33"
+                  data-aed-yearly="20"
+                >$8.99</span>
+                <span class="plan-card__period">/ month</span>
+              </div>
+              <p class="plan-card__desc">Ultimate experience, 4K, all features</p>
+            </div>
+            <ul class="plan-features">
+              <li class="plan-feature plan-feature--yes">Everything in Basic</li>
+              <li class="plan-feature plan-feature--yes">4K Ultra HD</li>
+              <li class="plan-feature plan-feature--yes">Multiple profiles (5)</li>
+              <li class="plan-feature plan-feature--yes">Priority support</li>
+              <li class="plan-feature plan-feature--yes">Early access content</li>
+              <li class="plan-feature plan-feature--yes">Download (future)</li>
+              <li class="plan-feature plan-feature--yes">Exclusive content</li>
+            </ul>
+            <button class="btn btn-primary plan-btn" onclick="selectPlan('premium')">
+              Get Premium
+            </button>
+          </div>
+
+        </div>
+
+        <p class="upgrade-note">
+          🔒 Secure checkout · Cancel anytime · No hidden fees
+        </p>
+
+      </div>
+
+      <!-- ────────────────────────────────────
+           SUCCESS STATE (after register)
+      ──────────────────────────────────── -->
+      <div class="auth-panel" id="panelSuccess">
+        <div class="auth-success">
+          <div class="auth-success__icon">🎉</div>
+          <h2 class="auth-success__title">You're in!</h2>
+          <p class="auth-success__text">
+            Your free trial has started. You have <strong>7 days</strong> of full access.
+          </p>
+          <button class="btn btn-primary btn-lg" onclick="window.location.href='../index.html'">
+            Start Watching →
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <!-- end auth-container -->
+
+  </div>
+  <!-- end auth-wrapper -->
+
+  <!-- ── TOAST ── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="../js/config.js"></script>
+  <script src="../js/utils/constants.js"></script>
+  <script src="../js/utils/helpers.js"></script>
+  <script src="../js/utils/storage.js"></script>
+  <script src="../js/utils/trial.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/auth.js"></script>
+
+  <script>
+    /* ── Tab switching ── */
+    function switchTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+
+      const tabBtn = document.querySelector(`.auth-tab[data-tab="${tab}"]`);
+      const panel  = document.getElementById(`panel${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+
+      if (tabBtn)  tabBtn.classList.add('active');
+      if (panel)   panel.classList.add('active');
+
+      // Update URL hash
+      history.replaceState(null, '', `#${tab}`);
+    }
+
+    /* ── Open tab from URL hash ── */
+    const hash = window.location.hash.replace('#', '');
+    if (['login','register','upgrade','forgot'].includes(hash)) {
+      switchTab(hash);
+    }
+
+    /* ── Password visibility toggle ── */
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    /* ── Password strength meter ── */
+    document.getElementById('regPassword')?.addEventListener('input', function () {
+      const val   = this.value;
+      const fill  = document.getElementById('strengthFill');
+      const label = document.getElementById('strengthLabel');
+
+      let score = 0;
+      if (val.length >= 8)              score++;
+      if (/[A-Z]/.test(val))            score++;
+      if (/[0-9]/.test(val))            score++;
+      if (/[^A-Za-z0-9]/.test(val))     score++;
+
+      const levels = [
+        { w: '0%',   color: 'transparent', text: 'Enter a password' },
+        { w: '25%',  color: '#e74c3c',     text: 'Weak' },
+        { w: '50%',  color: '#f39c12',     text: 'Fair' },
+        { w: '75%',  color: '#3498db',     text: 'Good' },
+        { w: '100%', color: '#2ecc71',     text: 'Strong 💪' },
+      ];
+
+      const lvl = levels[score];
+      fill.style.width         = lvl.w;
+      fill.style.background    = lvl.color;
+      label.textContent        = lvl.text;
+      label.style.color        = lvl.color;
+    });
+
+    /* ── Billing toggle ── */
+    let isYearly = false;
+    function toggleBilling() {
+      isYearly = !isYearly;
+      const toggle = document.getElementById('billingToggle');
+      toggle.classList.toggle('active', isYearly);
+      updatePrices();
+    }
+
+    /* ── Currency selector ── */
+    let currentCurrency = 'USD';
+    const currencySymbols = {
+      USD: '$', PKR: '₨', GBP: '£', EUR: '€', INR: '₹', AED: 'د.إ'
+    };
+
+    document.querySelectorAll('.currency-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCurrency = btn.dataset.currency;
+        updatePrices();
+      });
+    });
+
+    function updatePrices() {
+      const cur = currentCurrency.toLowerCase();
+      const sym = currencySymbols[currentCurrency] || '$';
+      const period = isYearly ? 'yearly' : 'monthly';
+
+      document.querySelectorAll('.plan-card__amount').forEach(el => {
+        const key = `${cur}-${period}`;
+        const val = el.dataset[key.replace('-', '')] ?? el.dataset[cur] ?? '0';
+        el.textContent = val === '0' ? 'Free' : `${sym}${val}`;
+      });
+
+      document.querySelectorAll('.plan-card__period').forEach((el, i) => {
+        if (i === 0) return; // free plan
+        el.textContent = isYearly ? '/ month (billed yearly)' : '/ month';
+      });
+    }
+
+    /* ── Geo-detect currency ── */
+    async function detectCurrency() {
+      try {
+        const res  = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        const map  = {
+          PK: 'PKR', GB: 'GBP', IN: 'INR',
+          DE: 'EUR', FR: 'EUR', AE: 'AED', SA: 'AED'
+        };
+        const detected = map[data.country_code] || 'USD';
+        currentCurrency = detected;
+
+        document.querySelectorAll('.currency-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.currency === detected);
+        });
+        updatePrices();
+      } catch {
+        // fallback to USD silently
+      }
+    }
+
+    detectCurrency();
+
+    /* ── Plan selection (placeholder — wired to payment in future) ── */
+    function selectPlan(plan) {
+      if (plan === 'free') {
+        window.location.href = '../index.html';
+        return;
+      }
+      // Placeholder — will wire to payment gateway in future
+      if (typeof showToast === 'function') {
+        showToast(`${plan.charAt(0).toUpperCase() + plan.slice(1)} plan selected — payment coming soon!`, 'info');
+      } else {
+        alert(`${plan} plan selected — payment integration coming soon.`);
+      }
+    }
+
+    /* ── Form handlers (stubs — wired in auth.js) ── */
+    function handleLogin(e) {
+      e.preventDefault();
+      if (typeof AuthModule !== 'undefined') {
+        AuthModule.login();
+      } else {
+        console.warn('auth.js not loaded yet');
+      }
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      if (typeof AuthModule !== 'undefined') {
+        AuthModule.register();
+      } else {
+        console.warn('auth.js not loaded yet');
+      }
+    }
+
+    function handleForgotPassword(e) {
+      e.preventDefault();
+      if (typeof AuthModule !== 'undefined') {
+        AuthModule.forgotPassword();
+      } else {
+        console.warn('auth.js not loaded yet');
+      }
+    }
+  </script>
+
+</body>
+</html>

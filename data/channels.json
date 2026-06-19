@@ -1,0 +1,194 @@
+[
+  {
+    "id": "al-jazeera-english",
+    "name": "Al Jazeera English",
+    "logo": "https://iptv-org.github.io/iptv/channels/al-jazeera-english.png",
+    "country": "QA",
+    "category": "news",
+    "url": "https://live-hls-web-aje.getaj.net/AJE/index.m3u8"
+  },
+  {
+    "id": "bbc-world-news",
+    "name": "BBC World News",
+    "logo": "https://iptv-org.github.io/iptv/channels/bbc-world-news.png",
+    "country": "GB",
+    "category": "news",
+    "url": "https://vs-hls-uk-live.akamaized.net/pool_906/live/pool_906/bbc_world_service_news_internet/master.m3u8"
+  },
+  {
+    "id": "cnn-international",
+    "name": "CNN International",
+    "logo": "https://iptv-org.github.io/iptv/channels/cnn-international.png",
+    "country": "US",
+    "category": "news",
+    "url": "https://cnn-cnninternational-1-eu.rakuten.wurl.tv/playlist.m3u8"
+  },
+  {
+    "id": "dw-english",
+    "name": "DW English",
+    "logo": "https://iptv-org.github.io/iptv/channels/dw-english.png",
+    "country": "DE",
+    "category": "news",
+    "url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8"
+  },
+  {
+    "id": "france-24-english",
+    "name": "France 24 English",
+    "logo": "https://iptv-org.github.io/iptv/channels/france-24-english.png",
+    "country": "FR",
+    "category": "news",
+    "url": "https://stream.france24.com/hls/live/2037163/F24_EN_HI_HLS/master.m3u8"
+  },
+  {
+    "id": "euronews-english",
+    "name": "Euronews English",
+    "logo": "https://iptv-org.github.io/iptv/channels/euronews-english.png",
+    "country": "INT",
+    "category": "news",
+    "url": "https://rakuten.euronews.com/euronews/english/playlist.m3u8"
+  },
+  {
+    "id": "nasa-tv",
+    "name": "NASA TV",
+    "logo": "https://iptv-org.github.io/iptv/channels/nasa-tv.png",
+    "country": "US",
+    "category": "science",
+    "url": "https://nasa-i.akamaihd.net/hls/live/253565/NASA-NTV1-Public/master.m3u8"
+  },
+  {
+    "id": "bloomberg-tv",
+    "name": "Bloomberg TV",
+    "logo": "https://iptv-org.github.io/iptv/channels/bloomberg-television.png",
+    "country": "US",
+    "category": "business",
+    "url": "https://bloomberg.com/media-manifest/streams/us.m3u8"
+  },
+  {
+    "id": "cgtn-english",
+    "name": "CGTN English",
+    "logo": "https://iptv-org.github.io/iptv/channels/cgtn-english.png",
+    "country": "CN",
+    "category": "news",
+    "url": "https://news.cgtn.com/resource/live/english/cgtn-news.m3u8"
+  },
+  {
+    "id": "rt-international",
+    "name": "RT International",
+    "logo": "https://iptv-org.github.io/iptv/channels/rt-international.png",
+    "country": "RU",
+    "category": "news",
+    "url": "https://rt-glb.rttv.com/live/rtnews/playlist.m3u8"
+  },
+  {
+    "id": "arirang-tv",
+    "name": "Arirang TV",
+    "logo": "https://iptv-org.github.io/iptv/channels/arirang-tv.png",
+    "country": "KR",
+    "category": "entertainment",
+    "url": "https://amdlive-ctnd.amagi.tv/arirang/smil:arirang.smil/playlist.m3u8"
+  },
+  {
+    "id": "nhk-world",
+    "name": "NHK World",
+    "logo": "https://iptv-org.github.io/iptv/channels/nhk-world.png",
+    "country": "JP",
+    "category": "news",
+    "url": "https://nhkwlive-ojp.akamaized.net/hls/live/2003459/nhkwlive-ojp-en/index.m3u8"
+  },
+  {
+    "id": "trt-world",
+    "name": "TRT World",
+    "logo": "https://iptv-org.github.io/iptv/channels/trt-world.png",
+    "country": "TR",
+    "category": "news",
+    "url": "https://trtworldlive.akamaized.net/hls/live/2003440/trtworld/index.m3u8"
+  },
+  {
+    "id": "geo-news",
+    "name": "Geo News",
+    "logo": "https://iptv-org.github.io/iptv/channels/geo-news.png",
+    "country": "PK",
+    "category": "news",
+    "url": "https://www.geo.tv/assets/uploads/gmedia/live/geo_news.m3u8"
+  },
+  {
+    "id": "ary-news",
+    "name": "ARY News",
+    "logo": "https://iptv-org.github.io/iptv/channels/ary-news.png",
+    "country": "PK",
+    "category": "news",
+    "url": "https://arynewslivepk.akamaized.net/live/playlist.m3u8"
+  },
+  {
+    "id": "ptv-sports",
+    "name": "PTV Sports",
+    "logo": "https://iptv-org.github.io/iptv/channels/ptv-sports.png",
+    "country": "PK",
+    "category": "sports",
+    "url": "https://livestream.ptvsports.pk/live/master.m3u8"
+  },
+  {
+    "id": "sports-18",
+    "name": "Sports 18",
+    "logo": "https://iptv-org.github.io/iptv/channels/sports-18.png",
+    "country": "IN",
+    "category": "sports",
+    "url": "https://jiotv.cdn.jio.com/binge/api/v5/getLiveUrl?channel_id=1565&stream_type=Seek"
+  },
+  {
+    "id": "cartoon-network",
+    "name": "Cartoon Network",
+    "logo": "https://iptv-org.github.io/iptv/channels/cartoon-network.png",
+    "country": "US",
+    "category": "kids",
+    "url": "https://cartoonnetwork.live/playlist.m3u8"
+  },
+  {
+    "id": "nick-jr",
+    "name": "Nick Jr.",
+    "logo": "https://iptv-org.github.io/iptv/channels/nick-jr.png",
+    "country": "US",
+    "category": "kids",
+    "url": "https://nickjr.live/playlist.m3u8"
+  },
+  {
+    "id": "discovery-channel",
+    "name": "Discovery Channel",
+    "logo": "https://iptv-org.github.io/iptv/channels/discovery-channel.png",
+    "country": "US",
+    "category": "documentary",
+    "url": "https://discoverychannel.live/playlist.m3u8"
+  },
+  {
+    "id": "nat-geo-wild",
+    "name": "Nat Geo Wild",
+    "logo": "https://iptv-org.github.io/iptv/channels/nat-geo-wild.png",
+    "country": "US",
+    "category": "documentary",
+    "url": "https://natgeowild.live/playlist.m3u8"
+  },
+  {
+    "id": "animal-planet",
+    "name": "Animal Planet",
+    "logo": "https://iptv-org.github.io/iptv/channels/animal-planet.png",
+    "country": "US",
+    "category": "documentary",
+    "url": "https://animalplanet.live/playlist.m3u8"
+  },
+  {
+    "id": "mtv-europe",
+    "name": "MTV Europe",
+    "logo": "https://iptv-org.github.io/iptv/channels/mtv-europe.png",
+    "country": "GB",
+    "category": "music",
+    "url": "https://mtveurope.live/playlist.m3u8"
+  },
+  {
+    "id": "fashion-tv",
+    "name": "Fashion TV",
+    "logo": "https://iptv-org.github.io/iptv/channels/fashion-tv.png",
+    "country": "FR",
+    "category": "lifestyle",
+    "url": "https://www.fashion.tv/playlist.m3u8"
+  }
+]
